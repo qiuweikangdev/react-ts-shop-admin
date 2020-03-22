@@ -1,0 +1,26 @@
+.layout-wrapper{
+     .layout-sider,.layout-main{
+         height:100vh; //视口高度百分之100%
+     }
+     
+     //因为使用了插件滚动条，因此把原生滚动条不显示
+     .layout-sider::-webkit-scrollbar {
+        width: 0;
+        background: red;
+      }
+     .layout-header{
+         background: #fff;
+        box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+     } 
+     .ant-layout-header{
+        padding: 0 0;
+    }
+    .ant-layout-content{
+        height:100%;
+    }
+}
+.layout-wrapper::-webkit-scrollbar{
+    width: 0;
+    background: red;
+}
+

@@ -1,0 +1,32 @@
+.header-bar{
+    width:100%;
+    // padding: 0 24px;
+    line-height:64px;
+    position: relative;
+    display: flex;
+    .collapse-icon{
+        padding:0 20px;
+    }
+    .screen-full{
+        cursor: pointer;
+        position: absolute;
+        right:10%;
+    }
+     // 当宽度小于768时隐藏全屏按钮的样式
+    .screen-full.hidden{
+        visibility: hidden;
+        opacity: 0;
+        -webkit-opacity: 0;
+        -o-opacity: 0;
+        -ms-opacity: 0;
+        -moz-opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .header-menu{
+        position: absolute;
+        right:2%;
+        cursor: pointer;
+    }
+
+}

@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react",
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "isolatedModules": true,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "experimentalDecorators": true,
+    "noImplicitThis": false
+  },
+  "include": [
+    "src"
+  ],
+  "extends": "./paths.json"
+}
