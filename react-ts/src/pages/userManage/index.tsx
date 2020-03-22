@@ -38,6 +38,7 @@ const UserManage:React.FC = (props:any)=>{
         //获取用户
          getUser() //组件挂载之后执行
          settableData(dealData(userAll)) //组件更新之后执行
+         setLoading(false)
     },[userAll.length])
 
     let arr:any=[]
@@ -54,18 +55,24 @@ const UserManage:React.FC = (props:any)=>{
             arr.push(obj)
     })
      }
-     setLoading(false)
     return arr 
  }
 
    async function handleSearch(value){
-          setLoading(true)
-      let res = await searchUser({username:value})
-          if(!res.data.ok){
+       if(!value){
+         messageWarning('请输入');
+       }else{
+            setLoading(true)
+            let res = await searchUser({username:value})
+                if(!res.data.ok){
+                setLoading(false)
+                messageWarning(res.data.message);
+            }
+            settableData(dealData(res.data.data))
             setLoading(false)
-            messageWarning(res.data.message);
+    
         }
-        settableData(dealData(res.data.data))
+        
    }
    const handleChange =(event)=>{
        if(event.target.value === ''){
