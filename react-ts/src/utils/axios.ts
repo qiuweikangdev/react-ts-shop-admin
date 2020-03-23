@@ -4,7 +4,7 @@
  * @Author: qqqiu
  * @Date: 2020-01-21 11:30:21
  * @LastEditors: qqqiu
- * @LastEditTime: 2020-03-15 19:47:36
+ * @LastEditTime: 2020-03-23 21:49:06
  */
 import axios,{ AxiosRequestConfig,AxiosResponse,AxiosError } from 'axios'
 import config from '../config'
@@ -38,10 +38,10 @@ class HttpRequest{
          // 每次发送请求之前判断store中是否存在token        
         // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
         // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
-        //  config.headers['authorization'] ='Bearer '+ getToken()
          config.headers['authorization'] ='Bearer '+ getToken()
             return config
         },(error: any)=>{
+            
             return Promise.reject(error)
         })
         //响应拦截
@@ -59,7 +59,6 @@ class HttpRequest{
             //如果存在token,即已登录,请求返回状态码401时则登录过期
             if(getToken() && error.response && error.response.status ===401){  
                     message.error("登录过期,请重新登录");
-                // alert('登录过期,请重新登录')
                     removeToken()
                 // removeLocalStore('userInfo'); //清除用户信息
             }

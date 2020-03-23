@@ -1,3 +1,47 @@
 .dashboard{
     height:100%;
+    width:100%;
+    padding:20px;
+    .icon-content{
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        padding-bottom:20px;
+        .icon-user,.icon-goods,.icon-order,.icon-deal{
+            flex:1;
+            padding:5% 2%;
+            margin:auto;
+        }
+        .icon-user{
+            background: #36CFCA;
+        }
+        .icon-goods{
+            background: #FD4D4F;
+        }
+        .icon-order{
+            background: #FFC53D;
+        }
+        .icon-deal{
+            background: #42A7FF;
+        }
+        .icon-yonghu,.icon-dingdanguanli,.icon-store_icon,.icon-jiaoyijilu{
+            font-size:48px;
+            color:#fff;
+         }
+        .content{
+            flex:0 0 60%;
+            background:#fff;
+            display: inline-block;
+            padding:5% 0%;
+            span{
+                display: inline-block;
+                width:100%;
+                white-space: nowrap;
+            }            
+        }
+    }
+    .chart-wrapper{
+        height:100%;
+    }
+    
 }

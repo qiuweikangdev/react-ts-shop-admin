@@ -4,6 +4,7 @@ import { Menu, Button } from 'antd';
 import NavLink from './NavLink';
 import IRoute from '@/router/innerRouter/IRoute'
 import Logo from '@/assets/images/logo.png'
+import Icon from '@/components/iconFont/index'
 import { 
   Scrollbars
  } from 'react-custom-scrollbars';
@@ -65,10 +66,8 @@ const SiderBar:React.FC<IProps>= ({ routeMap})=>{
             key={name}
             title={
               <span>
-                {/* <AreaChartOutlined /> */}
-                <NavLink path={path + ''} icon={icon} title={title} />
-                {/* <Icon type={icon} /> */}
-                {/* <span>{title}</span> */}
+                 <Icon icon={icon} />
+                <span className='title-link'>{title}</span>
               </span>
             }
           >

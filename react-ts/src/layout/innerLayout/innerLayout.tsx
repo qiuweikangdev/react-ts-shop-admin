@@ -1,4 +1,4 @@
-import React ,{ useState,useEffect,useCallback } from 'react'
+import React ,{ useState,useEffect,useCallback, useMemo } from 'react'
 import { Layout } from 'antd';
 import SiderBar from './components/sildeBar';
 import HeaderBar from './components/headerBar'
@@ -7,6 +7,7 @@ import { Router,initRoutes }  from '@/router/innerRouter';
 import { connect } from 'react-redux'
 import './index.less'
 import { useHistory,useLocation } from 'react-router-dom';
+import { toggleSlidebar } from '@/store/actions/appActions'
 import { useViewport } from '@/hooks'
 import { 
     Scrollbars
@@ -14,6 +15,8 @@ import {
 interface IProps {
     routeMap: IRoute[],
     token:string,
+    toggleSlidebar:(opened)=>void,
+    sidebar:boolean
   }
   //渲染滚动条
 const renderThumb = (props: any) => {
@@ -26,7 +29,7 @@ const renderThumb = (props: any) => {
   return (<div style={{ ...style, ...thumbStyle }}  {...rest} />);
 }
 const { Header, Content, Footer, Sider } = Layout;
-const InterLayouts= ({routeMap=[],token}:IProps)=>{
+const InterLayouts:React.FC<IProps>= ({routeMap=[],token,toggleSlidebar,sidebar})=>{
    const [routes,setRoutes] = useState(routeMap); 
    const [collapse,setCollapse] = useState(false); 
    const [collapsedWidth,setCollapsedWidth] = useState(80);
@@ -62,24 +65,15 @@ const InterLayouts= ({routeMap=[],token}:IProps)=>{
         setScreenfullHidden(false)
         }
     },[width])
-
-//    const handleSize = (size:number)=>{
-//         if(size>768 && size<=992){
-//             setCollapsedWidth(80)
-//             setCollapse(true)
-//         }
-//         else if(size<=768){
-//             setCollapsedWidth(0)
-//             setCollapse(true)
-//         }
-//         else{
-//             setCollapsedWidth(80)
-//             setCollapse(false)
-//         }
-//    }
    const onToggleCollapsed =()=>{
         setCollapse(!collapse)
-}
+} 
+   const isSlidebar = useCallback(()=>{
+        toggleSlidebar(!collapse)
+   },[collapse])
+   useEffect(()=>{ 
+        isSlidebar()
+   },[collapse])
     //判断是否登录
     let history = useHistory()
     const isAuth = ()=>{
@@ -129,4 +123,4 @@ const mapStateToProps = (state:any)=>{
     }
 }
 
-export default connect(mapStateToProps)(InterLayouts);
+export default connect(mapStateToProps,{toggleSlidebar})(InterLayouts);

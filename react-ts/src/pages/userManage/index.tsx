@@ -1,4 +1,4 @@
-import React,{ useEffect,memo ,useCallback,Suspense,useState,lazy,useMemo } from 'react'
+import React,{ useEffect,memo ,useCallback,useState,useMemo,useRef  } from 'react'
 import { Table, Input, Avatar, message } from 'antd';
 import { connect }  from 'react-redux'
 import {  getUser } from '@/store/actions/userActions'
@@ -34,6 +34,7 @@ const UserManage:React.FC = (props:any)=>{
     const { userAll,getUser } = props
     const [tableData,settableData]=useState([])
     const [loading,setLoading ] =useState(true)
+    const [value,setValue ] =useState(null)
     useEffect(()=>{
         //获取用户
          getUser() //组件挂载之后执行
@@ -57,6 +58,13 @@ const UserManage:React.FC = (props:any)=>{
      }
     return arr 
  }
+ let load = useMemo(()=>{
+        if(tableData.length>0 || value){
+            return false
+        }else{
+            return true
+        }
+  },[tableData])
 
    async function handleSearch(value){
        if(!value){
@@ -65,8 +73,9 @@ const UserManage:React.FC = (props:any)=>{
             setLoading(true)
             let res = await searchUser({username:value})
                 if(!res.data.ok){
-                setLoading(false)
                 messageWarning(res.data.message);
+                setLoading(false)
+                
             }
             settableData(dealData(res.data.data))
             setLoading(false)
@@ -77,6 +86,8 @@ const UserManage:React.FC = (props:any)=>{
    const handleChange =(event)=>{
        if(event.target.value === ''){
              settableData(dealData(userAll)) 
+        }else{
+            setValue(event.target.value)
         }
    }
     return (
@@ -93,7 +104,7 @@ const UserManage:React.FC = (props:any)=>{
                      </div>
                 </div>
                 <div className='table-container'>
-                        <Table  columns={columns} dataSource={tableData} loading={loading}/>
+                        <Table  columns={columns} dataSource={tableData} loading={load || loading}/>
                 </div> 
                 
             </div>
