@@ -42,13 +42,13 @@ const UserManage:React.FC = (props:any)=>{
          setLoading(false)
     },[userAll.length])
 
-    let arr:any=[]
     //处理表格数据
  const dealData =(data)=>{
+    let arr:any=[]
      if(data&&data.length>0){
         data.map((item)=>{
             let obj:any= {}
-            obj.key = item.id
+            obj.key = item.user_id
             obj.time =formatTime(item.createAt)
             obj.name = item.username
             obj.password = item.password
