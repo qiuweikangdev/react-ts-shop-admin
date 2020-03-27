@@ -1,8 +1,8 @@
 import React,{ useEffect,useState,useMemo } from 'react'
-import { Table, Input, Avatar, message,Button } from 'antd';
+import { Table, Input, Avatar, Button, Popconfirm, message  } from 'antd';
 import { messageError,messageSuccess,messageWarning} from '@/utils/message'
 import { DownloadOutlined } from '@ant-design/icons';
-import { getGoodsData,searchGoods  } from '@/api/shop'
+import { getGoodsData,searchGoods,deleteGoodsID  } from '@/api/shop'
 import './index.less'
 const { Search } = Input;
 const { Column  } = Table;
@@ -75,7 +75,19 @@ const GoodsManage = ()=>{
             dataIndex: 'amount',
             width: '10%',
           },
-        { title: '操作',  fixed: 'right', width: 50, render: () => <a>删除</a>},
+        { title: '操作',  fixed: 'right', width: 50,render: (text, record, index)=>
+          //  <a>删除</a>
+          <Popconfirm
+          title="确定删除吗?"
+          onConfirm={()=>handleConfirm(record)}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+        <a>删除</a>
+        </Popconfirm>,
+        
+        },
 
       ];
       
@@ -149,7 +161,25 @@ const GoodsManage = ()=>{
     const formatJson = (filterVal, jsonData)=>{
         return jsonData.map(v => filterVal.map(j => v[j]))
     }
-   
+    
+     
+    const handleConfirm = async (data)=>{    
+      console.log(data,'data')
+     const { key:goods_serial_number} = data
+      // console.log(data,'data')
+     let result =  await deleteGoodsID({goods_serial_number})
+     if(result.data.ok){
+            messageSuccess('删除成功')
+             getData()  //重新获取数据更新页面
+     }else{
+          console.log(result)
+          messageError('删除失败')
+     }
+
+  }
+    const cancel = (e)=>{
+    }
+
     return (
         <div className='goods-manage'>
             <div className='operate-bar'> 

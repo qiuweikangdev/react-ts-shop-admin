@@ -4,7 +4,6 @@ import { connect }  from 'react-redux'
 import {  getUser } from '@/store/actions/userActions'
 import { formatTime,getBase64 } from '@/utils'
 import './index.less'
-import PageLoading from '../../components/pageLoading/index';
 import { searchUser } from '../../api/user';
 import { messageError,messageSuccess,messageWarning} from '@/utils/message'
 const { Search } = Input;
