@@ -19,8 +19,8 @@ const GoodsManage = ()=>{
  
     const getData =async ()=>{
         let result = await getGoodsData()
+        console.log(result,'resut')
         let data = dealData(result.data.data)
-        // console.log(data,'result')
         settableData(data)
         setLoading(false)
     }
@@ -40,6 +40,7 @@ const GoodsManage = ()=>{
             obj.name = item.product_name
             obj.presentPrice =  item.present_price
             obj.originPrice =  item.origin_price
+            obj.likeNum =  item.like_num
             obj.amount =  item.amount
             arr.push(obj)
          })
@@ -49,47 +50,104 @@ const GoodsManage = ()=>{
     const handleChange = ()=>{
 
     }
-
-    const columns:any  = [
-        {
-          title: '商品编号',
-          dataIndex: 'key',
-        },
-        {
-          title: '商品名称',
-          dataIndex: 'name',
-          width: '30%',
-        },
-        {
-            title: '销售价格',
-            dataIndex: 'presentPrice',
-            width: '10%',
-          },
-          {
-            title: '原有价格',
-            dataIndex: 'originPrice',
-            width: '10%',
-          },
-          {
-            title: '库存数量',
-            dataIndex: 'amount',
-            width: '10%',
-          },
-        { title: '操作',  fixed: 'right', width: 50,render: (text, record, index)=>
-          //  <a>删除</a>
-          <Popconfirm
-          title="确定删除吗?"
-          onConfirm={()=>handleConfirm(record)}
-          onCancel={cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-        <a>删除</a>
-        </Popconfirm>,
+    // '商品编号','商品名称','销售价格','原有价格','用户点赞','库存数量'
+ const header =[{
+    prop:'key',
+    label:'商品编号'
+ },{
+  prop:'name',
+  label:'商品名称'
+},{
+  prop:'presentPrice',
+  label:'销售价格'
+},{
+  prop:'originPrice',
+  label:'原有价格'
+},{
+  prop:'likeNum',
+  label:'用户点赞'
+},{
+  prop:'amount',
+  label:'库存数量'
+},{
+  prop:'operate',
+  label:'操作'
+}]
+ const columns:any= []
+  for(let i=0;i<header.length;++i){
+       let obj = {}
+       obj['title'] = header[i].label
+       obj['dataIndex'] = header[i].prop
+       obj['align'] ='center'
+      if(header[i].prop.includes('operate')){
+          obj['title'] = header[i].label
+          obj['dataIndex'] = header[i].prop
+          obj['fixed'] ='right'
+          obj['render']=(text, record, index)=>(
+            <Popconfirm
+                  title="确定删除吗?"
+                  onConfirm={()=>handleConfirm(record)}
+                  onCancel={cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+              <a>删除</a>
+            </Popconfirm>
+            )
+      }
+      columns.push(obj)
+  }
+    // const columns:any  = [
+    //     {
+    //       title: '商品编号',
+    //       dataIndex: 'key',
+    //       align:'center',
+    //     },
+    //     {
+    //       title: '商品名称',
+    //       dataIndex: 'name',
+    //       width: '25%',
+    //       align:'center'
+    //     },
+    //     {
+    //         title: '销售价格',
+    //         dataIndex: 'presentPrice',
+    //         width: '10%',
+    //         align:'center'
+    //       },
+    //       {
+    //         title: '原有价格',
+    //         dataIndex: 'originPrice',
+    //         width: '10%',
+    //         align:'center'
+    //       },
+    //       {
+    //         title: '用户点赞',
+    //         dataIndex: 'likeNum',
+    //         width: '10%',
+    //         align:'center'
+    //       },
+    //       {
+    //         title: '库存数量',
+    //         dataIndex: 'amount',
+    //         width: '10%',
+    //         align:'center'
+    //       },
+    //     { title: '操作',  fixed: 'right', width: 50,render: (text, record, index)=>
+    //       //  <a>删除</a>
+    //       <Popconfirm
+    //       title="确定删除吗?"
+    //       onConfirm={()=>handleConfirm(record)}
+    //       onCancel={cancel}
+    //       okText="Yes"
+    //       cancelText="No"
+    //     >
+    //     <a>删除</a>
+    //     </Popconfirm>,
         
-        },
+    //     },
 
-      ];
+    //   ];
       
       // const data = [
       //   {

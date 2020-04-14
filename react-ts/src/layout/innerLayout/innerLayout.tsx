@@ -86,10 +86,10 @@ const InterLayouts:React.FC<IProps>= ({routeMap=[],token,toggleSlidebar,sidebar}
         }
     }
     return (
-        <Scrollbars
-            renderThumbHorizontal={renderThumb}
-            renderThumbVertical={renderThumb}
-        >
+        // <Scrollbars
+        //     renderThumbHorizontal={renderThumb}
+        //     renderThumbVertical={renderThumb}
+        // >
        <Layout className="layout-wrapper"  >
            {/* 侧边栏 */}
            <Sider
@@ -113,7 +113,7 @@ const InterLayouts:React.FC<IProps>= ({routeMap=[],token,toggleSlidebar,sidebar}
                  </Content>
              </Layout>
        </Layout>
-       </Scrollbars>
+    //    </Scrollbars>
     )
 }
 
