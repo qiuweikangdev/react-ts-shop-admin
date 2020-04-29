@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Table, Input, Avatar, Button, Popconfirm, message } from "antd";
 import { messageError, messageSuccess, messageWarning } from "@/utils/message";
 import { DownloadOutlined } from "@ant-design/icons";
-import { searchGoods, getOrderData, deleteOrderID } from "@/api/shop";
+import { searchOrder, getOrderData, deleteOrderID } from "@/api/shop";
 import { formatTime } from "@/utils";
 import "./index.less";
 const { Search } = Input;
@@ -93,31 +93,30 @@ const OrderManage = () => {
       messageWarning("请输入");
     } else {
       setLoading(true);
-      let res = await searchGoods({ name: value });
+      let res = await searchOrder({ user_id: value });
       console.log(res, "res");
-      if (!res.data.ok) {
+      if (res.data.ok == 0) {
         messageWarning(res.data.message);
         setLoading(false);
       } else {
-        settableData(dealData(res.data.message));
+        settableData(dealData(res.data.data));
         setLoading(false);
       }
     }
   };
-
+  const handleChange = (event) => {
+    if (event.target.value === "") {
+      getData();
+    } else {
+      setValue(event.target.value);
+    }
+  };
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setMultipleSelection(selectedRows);
       setSelectedRowKey(selectedRowKeys);
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
     selectedRowKeys: selectedRowKey,
-    // onSelect: (record, selected, selectedRows) => {
-    //    console.log(record, selected, selectedRows);
-    // },
-    // onSelectAll: (selected, selectedRows, changeRows) => {
-    //   console.log(selected, selectedRows, changeRows);
-    // }
   };
   //导出excel
   const handleDownload = () => {
@@ -151,7 +150,6 @@ const OrderManage = () => {
   };
 
   const handleConfirm = async (data) => {
-    console.log(data, "data");
     const { key: order_num } = data;
     // console.log(data,'data')
     let result = await deleteOrderID({ order_num });
@@ -159,7 +157,6 @@ const OrderManage = () => {
       messageSuccess("删除成功");
       getData(); //重新获取数据更新页面
     } else {
-      console.log(result);
       messageError("删除失败");
     }
   };
@@ -178,10 +175,11 @@ const OrderManage = () => {
         </Button>
         <div className="search">
           <Search
-            placeholder="please search product name"
+            placeholder="please search userid"
             enterButton="Search"
             size="large"
             onSearch={handleSearch}
+            onChange={handleChange}
           />
         </div>
       </div>
